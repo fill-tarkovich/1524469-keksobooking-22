@@ -1,11 +1,16 @@
 /* global L:readonly */
 
-import { advertisements } from './data.js';
+import { createAdvertisements } from './data.js';
 import { renderCard } from './popup.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
+const CENTER_LAT = 35.6895;
+const CENTER_LNG = 139.69171;
+const MAP_ZOOM = 12;
+const DECIMALS = 5;
+
 
 adForm.classList.add('ad-form--disabled');
 adForm.querySelectorAll('fieldset').forEach((element) => {
@@ -26,8 +31,9 @@ map.addEventListener('load', () => {
   mapFilters.querySelectorAll('fieldset, select').forEach((element) => {
     element.disabled = false;
   });
+  address.value = '35.6895, 139.69171';
 });
-map.setView({ lat: 35.6895, lng: 139.69171 }, 12);
+map.setView({ lat: CENTER_LAT, lng: CENTER_LNG }, MAP_ZOOM);
 
 const layer = L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -45,8 +51,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.6895,
-    lng: 139.69171,
+    lat: CENTER_LAT,
+    lng: CENTER_LNG,
   },
   {
     draggable: true,
@@ -55,20 +61,19 @@ const mainMarker = L.marker(
 );
 mainMarker.addTo(map);
 
-address.value = '35.6895, 139.69171';
 
-mainMarker.addEventListener('moveend', (evt) => {
+mainMarker.addEventListener('move', (evt) => {
   const location = evt.target.getLatLng();
-  address.value = location.lat.toFixed(5) + ',' + location.lng.toFixed(5);
+  address.value = location.lat.toFixed(DECIMALS) + ',' + location.lng.toFixed(DECIMALS);
 });
 
 const adIcon = L.icon({
-  iconUrl: '/img/pin.svg',
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
-advertisements(10).forEach((advertisement) => {
+createAdvertisements(10).forEach((advertisement) => {
   const adMarker = L.marker({
     lat: advertisement.location.x,
     lng: advertisement.location.y,
@@ -77,6 +82,6 @@ advertisements(10).forEach((advertisement) => {
     icon: adIcon,
   },
   );
-  adMarker.addTo(map);
   adMarker.bindPopup(renderCard(advertisement));
+  adMarker.addTo(map);
 });
