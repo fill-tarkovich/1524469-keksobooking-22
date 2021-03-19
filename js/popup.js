@@ -3,21 +3,27 @@ import { OFFER_TYPE } from './data.js';
 const cardTemplate = document.querySelector('#card').content;
 const newCard = cardTemplate.cloneNode(true);
 
-const checkValue = (value, selector) => {
+const checkValue = (selector, value) => {
   if (value) {
-    newCard.querySelector(selector).textContent = value
+    newCard.querySelector(selector).textContent = value;
   } else {
     newCard.querySelector(selector).remove()
   }
 };
 
 const renderCard = ({ author, offer }) => {
-  checkValue(offer.title, '.popup__title');
-  checkValue(offer.address, '.popup__text--address');
-  checkValue(offer.price + ' ₽/ночь', '.popup__text--price');
-  checkValue(OFFER_TYPE[offer.type], '.popup__type');
-  checkValue(offer.rooms + ' комнаты для ' + offer.guests + ' гостей', '.popup__text--capacity');
-  checkValue('Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout, '.popup__text--time');
+  checkValue('.popup__title', offer.title);
+  newCard.querySelector('.popup__title').textContent = offer.title;
+  // checkValue('.popup__text--address', offer.address);
+  newCard.querySelector('.popup__text--address').textContent = offer.address;
+  // checkValue('.popup__text--price', offer.price + ' ₽/ночь');
+  newCard.querySelector('.popup__text--price').textContent = offer.price + ' ₽/ночь'
+  // checkValue('.popup__type', OFFER_TYPE[offer.type]);
+  newCard.querySelector('.popup__type').textContent = OFFER_TYPE[offer.type];
+  // checkValue('.popup__text--capacity', offer.rooms + ' комнаты для ' + offer.guests + ' гостей');
+  newCard.querySelector('.popup__text--capacity').textContent = offer.rooms + ' комнаты для ' + offer.guests + ' гостей';
+  // checkValue('.popup__text--time', 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout);
+  newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
 
   const featuresList = newCard.querySelector('.popup__features');
   featuresList.innerHTML = '';
@@ -32,7 +38,7 @@ const renderCard = ({ author, offer }) => {
     featuresList.remove;
   }
 
-  checkValue(offer.description, '.popup__description');
+  checkValue('.popup__description', offer.description);
 
   const popupPhotos = newCard.querySelector('.popup__photos');
   popupPhotos.innerHTML = '';

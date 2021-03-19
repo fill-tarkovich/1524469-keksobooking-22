@@ -1,16 +1,14 @@
 /* global L:readonly */
-
 import { createAdvertisements } from './data.js';
 import { renderCard } from './popup.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
-const CENTER_LAT = 35.6895;
+const CENTER_LAT = 35.68950;
 const CENTER_LNG = 139.69171;
 const MAP_ZOOM = 12;
 const DECIMALS = 5;
-const ADS_COUNT = 10;
 
 
 adForm.classList.add('ad-form--disabled');
@@ -74,7 +72,27 @@ const adIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-createAdvertisements(ADS_COUNT).forEach((advertisement) => {
+
+
+// const renderPins = (pinsData) => {
+//   pinsData.forEach((advertisement) => {
+//     const adMarker = L.marker({
+//       lat: advertisement.location.x,
+//       lng: advertisement.location.y,
+//     },
+//     {
+//       icon: adIcon,
+//     },
+//     );
+//     adMarker.bindPopup(renderCard(advertisement));
+//     adMarker.addTo(map);
+//   });
+// }
+// export {renderPins}
+
+
+
+createAdvertisements(10).forEach((advertisement) => {
   const adMarker = L.marker({
     lat: advertisement.location.x,
     lng: advertisement.location.y,
