@@ -10,6 +10,7 @@ const CENTER_LAT = 35.6895;
 const CENTER_LNG = 139.69171;
 const MAP_ZOOM = 12;
 const DECIMALS = 5;
+const ADS_COUNT = 10;
 
 
 adForm.classList.add('ad-form--disabled');
@@ -73,7 +74,7 @@ const adIcon = L.icon({
   iconAnchor: [20, 40],
 });
 
-createAdvertisements(10).forEach((advertisement) => {
+createAdvertisements(ADS_COUNT).forEach((advertisement) => {
   const adMarker = L.marker({
     lat: advertisement.location.x,
     lng: advertisement.location.y,

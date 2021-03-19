@@ -44,16 +44,6 @@ venueType.addEventListener('change', () => {
   venuePrice.min = MinPrice[venueType.value.toUpperCase()];
 });
 
-const validatePrice = () => {
-  venuePrice.addEventListener('invalid', () => {
-    if (venuePrice.validity.valueMissing) {
-      venuePrice.setCustomValidity('Обязательное поле');
-    }
-    venuePrice.reportValidity();
-  });
-}
-validatePrice();
-
 const validateCapacity = () => {
   if (roomNumber.value === '100' && capacity.value !== '0') {
     capacity.setCustomValidity('Выберите пункт "Не для гостей ')
@@ -66,4 +56,9 @@ const validateCapacity = () => {
   } else { capacity.setCustomValidity('') }
   capacity.reportValidity();
 }
-validateCapacity();
+roomNumber.addEventListener('change', () => {validateCapacity()});
+
+
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+});
