@@ -1,3 +1,7 @@
+import { sendData } from './api.js';
+import { showFailPopup, showSuccessPopup } from './popup.js';
+import { resetMap } from './map.js'
+
 const adForm = document.querySelector('.ad-form');
 const checkIn = adForm.querySelector('#timein');
 const checkOut = adForm.querySelector('#timeout');
@@ -6,6 +10,7 @@ const venuePrice = adForm.querySelector('#price');
 const adTitle = adForm.querySelector('#title');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
+const reset = adForm.querySelector('.ad-form__reset');
 const MinPrice =
 {
   BUNGALOW: 0,
@@ -56,9 +61,24 @@ const validateCapacity = () => {
   } else { capacity.setCustomValidity('') }
   capacity.reportValidity();
 }
-roomNumber.addEventListener('change', () => {validateCapacity()});
+roomNumber.addEventListener('change', () => { validateCapacity() });
 
 
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
+  sendData(() => {
+    showSuccessPopup();
+    adForm.reset();
+    resetMap();
+  },
+  () => {
+    showFailPopup()
+  },
+  new FormData(adForm))
+});
+
+reset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  adForm.reset();
+  resetMap();
 });

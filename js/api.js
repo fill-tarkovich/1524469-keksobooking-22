@@ -1,14 +1,22 @@
-const getData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
+const urlData = {
+  get: 'https://22.javascript.pages.academy/keksobooking/data',
+  send: 'https://22.javascript.pages.academy/keksobooking',
+};
+
+const getData = (onSuccess, onFail) => {
+  fetch(urlData.get)
     .then((response) => response.json())
-    .then((ads) => {
-      onSuccess(ads);
+    .then((data) => {
+      onSuccess(data);
+    })
+    .catch(() => {
+      onFail();
     });
 };
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://22.javascript.pages.academy/keksobooking',
+    urlData.send,
     {
       method: 'POST',
       body,
@@ -26,4 +34,5 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export {getData, sendData};
+
+export { getData, sendData }

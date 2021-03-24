@@ -9,12 +9,6 @@ const PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-const OFFER_TYPE = {
-  flat: 'Квартира',
-  bungalow: 'Бунгало',
-  house: 'Дом',
-  palace: 'Дворец',
-}
 
 const createAuthor = () => {
   return {
@@ -25,7 +19,7 @@ const createAuthor = () => {
 const createOffer = (location) => {
   return {
     title: 'Жилье для вас',
-    address: location.x + ', ' + location.y,
+    address: location.lat + ', ' + location.lng,
     price: getRandomInt(1, 1000000),
     type: TYPE[getRandomInt(0, TYPE.length - 1)],
     rooms: getRandomInt(1, 10),
@@ -40,8 +34,8 @@ const createOffer = (location) => {
 
 const createLocation = () => {
   return {
-    x: getRandomFloat(35.65000, 35.70000, 5),
-    y: getRandomFloat(139.70000, 139.80000, 5),
+    lat: getRandomFloat(35.65000, 35.70000, 5),
+    lng: getRandomFloat(139.70000, 139.80000, 5),
   };
 };
 
@@ -55,4 +49,4 @@ const createAdvertisement = () => {
 }
 const createAdvertisements = (count) => new Array(count).fill(null).map(() => createAdvertisement());
 
-export { OFFER_TYPE, createAdvertisements }
+export {createAdvertisements}

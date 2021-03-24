@@ -1,57 +1,75 @@
 /* global L:readonly */
-import { createAdvertisements } from './data.js';
-import { renderCard } from './popup.js';
+
+import { renderCard } from './card.js';
 
 const adForm = document.querySelector('.ad-form');
 const mapFilters = document.querySelector('.map__filters');
 const address = document.querySelector('#address');
-const CENTER_LAT = 35.68950;
-const CENTER_LNG = 139.69171;
-const MAP_ZOOM = 12;
-const DECIMALS = 5;
 
+const CENTER = {
+  lat: '35.68783',
+  lng: '139.75662',
+};
+const ZOOM = 10;
 
-adForm.classList.add('ad-form--disabled');
-adForm.querySelectorAll('fieldset').forEach((element) => {
-  element.disabled = true;
-});
-mapFilters.classList.add('map__filters--disabled');
-mapFilters.querySelectorAll('fieldset, select').forEach((element) => {
-  element.disabled = true;
-});
+// Функция перехода в неактивное состояние
+const deactivateForm = () => {
+  adForm.classList.add('ad-form--disabled');
+  adForm.querySelectorAll('fieldset').forEach((element) => {
+    element.disabled = true;
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.querySelectorAll('fieldset, select').forEach((element) => {
+    element.disabled = true;
+  });
+};
+deactivateForm();
 
-const map = L.map('map-canvas');
-map.addEventListener('load', () => {
+// Функция перехода в активное состояние
+const activateForm = () => {
   adForm.classList.remove('ad-form--disabled');
   adForm.querySelectorAll('fieldset').forEach((element) => {
-    element.disabled = false
+    element.disabled = false;
   });
   mapFilters.classList.remove('map__filters--disabled');
   mapFilters.querySelectorAll('fieldset, select').forEach((element) => {
     element.disabled = false;
   });
-  address.value = '35.6895, 139.69171';
-});
-map.setView({ lat: CENTER_LAT, lng: CENTER_LNG }, MAP_ZOOM);
+};
 
-const layer = L.tileLayer(
+
+// Добавление карты
+const map = L.map('map-canvas')
+  .on('load', () => {
+    activateForm();
+    address.value = `${CENTER.lat}, ${CENTER.lng}`;
+  })
+  .setView({
+    lat: CENTER.lat,
+    lng: CENTER.lng,
+  }, ZOOM);
+
+// Добавление слоя карты
+
+L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
-);
-layer.addTo(map);
+).addTo(map);
 
+// Оформление главного маркера
 const mainIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
 
+// Добавление главного маркера
 const mainMarker = L.marker(
   {
-    lat: CENTER_LAT,
-    lng: CENTER_LNG,
+    lat: CENTER.lat,
+    lng: CENTER.lng,
   },
   {
     draggable: true,
@@ -60,12 +78,13 @@ const mainMarker = L.marker(
 );
 mainMarker.addTo(map);
 
+// Изменение поля адресса при перемещении главного маркера
 
-mainMarker.addEventListener('move', (evt) => {
-  const location = evt.target.getLatLng();
-  address.value = location.lat.toFixed(DECIMALS) + ',' + location.lng.toFixed(DECIMALS);
+mainMarker.on('move', (evt) => {
+  address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
+// Оформление иконки маркера объявления
 const adIcon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
@@ -73,34 +92,34 @@ const adIcon = L.icon({
 });
 
 
+// Функция добавления маркеров на карту
 
-// const renderPins = (pinsData) => {
-//   pinsData.forEach((advertisement) => {
-//     const adMarker = L.marker({
-//       lat: advertisement.location.x,
-//       lng: advertisement.location.y,
-//     },
-//     {
-//       icon: adIcon,
-//     },
-//     );
-//     adMarker.bindPopup(renderCard(advertisement));
-//     adMarker.addTo(map);
-//   });
-// }
-// export {renderPins}
+const renderPins = (data) => {
+  data.forEach((marker) => {
+    const adMarker = L.marker(
+      {
+        lat: marker.location.lat,
+        lng: marker.location.lng,
+      },
+      {
+        icon: adIcon,
+        keepInView: true,
+      },
+    );
+    adMarker
+      .addTo(map)
+      .bindPopup(renderCard(marker));
+  });
+};
 
+const resetMap = () => {
+  address.value = `${CENTER.lat}, ${CENTER.lng}`;
+  mainMarker.setLatLng([CENTER.lat, CENTER.lng]);
+  map.setView({
+    lat: CENTER.LAT,
+    lng: CENTER.LNG,
+  }, ZOOM);
+}
 
+export {renderPins, resetMap}
 
-createAdvertisements(10).forEach((advertisement) => {
-  const adMarker = L.marker({
-    lat: advertisement.location.x,
-    lng: advertisement.location.y,
-  },
-  {
-    icon: adIcon,
-  },
-  );
-  adMarker.bindPopup(renderCard(advertisement));
-  adMarker.addTo(map);
-});
