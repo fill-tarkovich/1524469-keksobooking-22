@@ -1,17 +1,23 @@
+/* global _:readonly */
 import './form.js';
-import {renderPins} from './map.js';
-import {getData} from './api.js';
-import {createLoadErrorPopup} from './popup.js';
-// import { createAdvertisements } from './data.js';
+import {deactivateForm} from './form.js'
+import { filterArray, onFilterChange, activateFilters } from './filter.js';
+import { renderLayer, clearMap, activateMap } from './map.js';
+import { getData } from './api.js';
+import { createLoadErrorPopup } from './popup.js';
 
-const ADS_COUNT = 10;
+const DELAY = 150;
 
+deactivateForm();
+activateMap();
 getData((data) => {
-  data.slice(0, ADS_COUNT);
-  renderPins(data);
+  renderLayer(data);
+  activateFilters();
+  onFilterChange(_.debounce(() => {
+    clearMap();
+    let newData = filterArray(data);
+    renderLayer(newData);
+  }, DELAY));
 },
 () => createLoadErrorPopup('Ошибка при загрузке данных'),
 );
-
-// let markers = createAdvertisements(10);
-// renderPins(markers);

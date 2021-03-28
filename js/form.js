@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { showFailPopup, showSuccessPopup } from './popup.js';
-import { resetMap } from './map.js'
+import { resetMap, mapFilters } from './map.js'
 
 const adForm = document.querySelector('.ad-form');
 const checkIn = adForm.querySelector('#timein');
@@ -19,6 +19,23 @@ const MinPrice =
   palace: 10000,
 };
 
+const deactivateForm = () => {
+  adForm.classList.add('ad-form--disabled');
+  adForm.querySelectorAll('fieldset').forEach((element) => {
+    element.disabled = true;
+  });
+  mapFilters.classList.add('map__filters--disabled');
+  mapFilters.querySelectorAll('fieldset, select').forEach((element) => {
+    element.disabled = true;
+  });
+};
+
+const activateForm = () => {
+  adForm.classList.remove('ad-form--disabled');
+  adForm.querySelectorAll('fieldset').forEach((element) => {
+    element.disabled = false;
+  });
+};
 
 const validateTitle = () => {
   adTitle.addEventListener('input', () => {
@@ -63,13 +80,13 @@ const validateCapacity = () => {
 }
 roomNumber.addEventListener('change', () => { validateCapacity() });
 
-
 adForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   sendData(() => {
     showSuccessPopup();
     adForm.reset();
     resetMap();
+    mapFilters.reset();
   },
   () => {
     showFailPopup()
@@ -81,4 +98,7 @@ reset.addEventListener('click', (evt) => {
   evt.preventDefault();
   adForm.reset();
   resetMap();
+  mapFilters.reset();
 });
+
+export {deactivateForm, activateForm}
