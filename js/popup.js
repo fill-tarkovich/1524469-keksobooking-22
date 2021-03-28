@@ -5,7 +5,6 @@ const errorTemplate = document.querySelector('#error').content.querySelector('.e
 const DATA_ERROR_DURATION = 3000;
 const POPUP_Z_INDEX = 1000;
 
-// Сообщение об ошибке загрузки данных
 const createLoadErrorPopup = (popupText) => {
   const dataErrorPopup = successTemplate.cloneNode(true);
   dataErrorPopup.style.zIndex = POPUP_Z_INDEX;
@@ -18,8 +17,6 @@ const createLoadErrorPopup = (popupText) => {
   }, DATA_ERROR_DURATION);
 }
 
-// Закрытие клавишей ESC
-
 const onEscape = (popup) => {
   return (evt) => {
     if (evt.key === 'Escape') {
@@ -30,7 +27,6 @@ const onEscape = (popup) => {
   };
 }
 
-// Функция создания попапа для формы
 const createPopup = (template, error) => {
   const popup = template.cloneNode(true);
   popup.style.zIndex = POPUP_Z_INDEX;
@@ -47,12 +43,10 @@ const createPopup = (template, error) => {
   });
 };
 
-// Успешная отправка
 const showSuccessPopup = () => {
   createPopup(successTemplate, false);
 };
 
-// Неуспешная отправка
 const showFailPopup = () => {
   createPopup(errorTemplate, true);
 }

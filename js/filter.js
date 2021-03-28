@@ -1,4 +1,4 @@
-import {mapFilters} from './map.js';
+import { mapFilters } from './map.js';
 
 const housingType = document.querySelector('#housing-type');
 const housingRooms = document.querySelector('#housing-rooms');
@@ -80,4 +80,4 @@ const activateFilters = () => {
   });
 };
 
-export {filterArray, onFilterChange, activateFilters}
+export { filterArray, onFilterChange, activateFilters }

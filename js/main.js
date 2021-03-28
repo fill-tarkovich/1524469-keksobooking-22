@@ -1,6 +1,5 @@
 /* global _:readonly */
-import './form.js';
-import {deactivateForm} from './form.js'
+import { deactivateForm, validateForm, onFormSubmit, onResetClick } from './form.js'
 import { filterArray, onFilterChange, activateFilters } from './filter.js';
 import { renderLayer, clearMap, activateMap } from './map.js';
 import { getData } from './api.js';
@@ -10,6 +9,7 @@ const DELAY = 150;
 
 deactivateForm();
 activateMap();
+validateForm();
 getData((data) => {
   renderLayer(data);
   activateFilters();
@@ -18,6 +18,8 @@ getData((data) => {
     let newData = filterArray(data);
     renderLayer(newData);
   }, DELAY));
+  onResetClick(data);
 },
 () => createLoadErrorPopup('Ошибка при загрузке данных'),
 );
+onFormSubmit();

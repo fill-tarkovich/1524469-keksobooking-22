@@ -1,6 +1,6 @@
 import { sendData } from './api.js';
 import { showFailPopup, showSuccessPopup } from './popup.js';
-import { resetMap, mapFilters } from './map.js'
+import { resetMap, mapFilters, renderLayer } from './map.js'
 
 const adForm = document.querySelector('.ad-form');
 const checkIn = adForm.querySelector('#timein');
@@ -51,20 +51,22 @@ const validateTitle = () => {
     adTitle.reportValidity();
   })
 };
-validateTitle();
 
-checkIn.addEventListener('change', () => {
-  checkOut.value = checkIn.value;
-});
+const adjustTime = () => {
+  checkIn.addEventListener('change', () => {
+    checkOut.value = checkIn.value;
+  });
+  checkOut.addEventListener('change', () => {
+    checkIn.value = checkOut.value;
+  });
+};
 
-checkOut.addEventListener('change', () => {
-  checkIn.value = checkOut.value;
-});
-
-venueType.addEventListener('change', () => {
-  venuePrice.placeholder = MinPrice[venueType.value.toUpperCase()];
-  venuePrice.min = MinPrice[venueType.value.toUpperCase()];
-});
+const adjustPrice = () => {
+  venueType.addEventListener('change', () => {
+    venuePrice.placeholder = MinPrice[venueType.value.toUpperCase()];
+    venuePrice.min = MinPrice[venueType.value.toUpperCase()];
+  });
+};
 
 const validateCapacity = () => {
   if (roomNumber.value === '100' && capacity.value !== '0') {
@@ -78,27 +80,39 @@ const validateCapacity = () => {
   } else { capacity.setCustomValidity('') }
   capacity.reportValidity();
 }
-roomNumber.addEventListener('change', () => { validateCapacity() });
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  sendData(() => {
-    showSuccessPopup();
+const validateForm = () => {
+  validateTitle();
+  adjustTime();
+  adjustPrice();
+  roomNumber.addEventListener('change', () => { validateCapacity() });
+  capacity.addEventListener('change', () => { validateCapacity() });
+}
+
+const onFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(() => {
+      showSuccessPopup();
+      adForm.reset();
+      resetMap();
+      mapFilters.reset();
+    },
+    () => {
+      showFailPopup()
+    },
+    new FormData(adForm))
+  });
+};
+
+const onResetClick = (array) => {
+  reset.addEventListener('click', (evt) => {
+    evt.preventDefault();
     adForm.reset();
     resetMap();
     mapFilters.reset();
-  },
-  () => {
-    showFailPopup()
-  },
-  new FormData(adForm))
-});
+    renderLayer(array);
+  });
+};
 
-reset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  adForm.reset();
-  resetMap();
-  mapFilters.reset();
-});
-
-export {deactivateForm, activateForm}
+export { deactivateForm, activateForm, validateForm, onFormSubmit, onResetClick }

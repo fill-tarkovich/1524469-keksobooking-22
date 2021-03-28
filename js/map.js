@@ -17,7 +17,7 @@ let pinsLayer;
 const map = L.map('map-canvas');
 
 const mainIcon = L.icon({
-  iconUrl: '/img/main-pin.svg',
+  iconUrl: './img/main-pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
