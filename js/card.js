@@ -14,8 +14,9 @@ const renderCard = ({ author, offer }) => {
   const checkValue = (selector, value) => {
     if (newCard.querySelector(selector).textContent !== null) {
       return newCard.querySelector(selector).textContent = value
-    } else
+    } else {
       return newCard.querySelector(selector).remove();
+    }
   };
 
   const newCard = cardTemplate.cloneNode(true);
