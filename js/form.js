@@ -97,6 +97,7 @@ const submitForm = () => {
     sendData(() => {
       showSuccessPopup();
       adForm.reset();
+      clearPictures();
       resetMap();
       mapFilters.reset();
     },
