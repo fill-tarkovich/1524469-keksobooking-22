@@ -1,9 +1,9 @@
+const DATA_ERROR_DURATION = 3000;
+const POPUP_Z_INDEX = 1000;
+
 const main = document.querySelector('main');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-
-const DATA_ERROR_DURATION = 3000;
-const POPUP_Z_INDEX = 1000;
 
 const createLoadErrorPopup = (popupText) => {
   const dataErrorPopup = successTemplate.cloneNode(true);
@@ -17,12 +17,12 @@ const createLoadErrorPopup = (popupText) => {
   }, DATA_ERROR_DURATION);
 }
 
-const onEscape = (popup) => {
+const pressEscape = (popup) => {
   return (evt) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       popup.remove();
-      document.removeEventListener('keydown', onEscape(popup));
+      document.removeEventListener('keydown', pressEscape(popup));
     }
   };
 }
@@ -37,7 +37,7 @@ const createPopup = (template, error) => {
       popup.remove();
     });
   }
-  document.addEventListener('keydown', onEscape(popup));
+  document.addEventListener('keydown', pressEscape(popup));
   popup.addEventListener('click', () => {
     popup.remove();
   });

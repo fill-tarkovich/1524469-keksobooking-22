@@ -3,16 +3,15 @@
 import { renderCard } from './card.js';
 import { activateForm } from './form.js';
 
-const mapFilters = document.querySelector('.map__filters');
-const address = document.querySelector('#address');
-const CENTER = {
+const ZOOM = 10;
+const ADS_COUNT = 10;
+const Center = {
   lat: 35.68783,
   lng: 139.75662,
 };
-const ZOOM = 10;
-const ADS_COUNT = 10;
-let pinsLayer;
 
+const mapFilters = document.querySelector('.map__filters');
+const address = document.querySelector('#address');
 
 const map = L.map('map-canvas');
 
@@ -24,8 +23,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: CENTER.lat,
-    lng: CENTER.lng,
+    lat: Center.lat,
+    lng: Center.lng,
   },
   {
     draggable: true,
@@ -43,11 +42,11 @@ const activateMap = () => {
   map
     .on('load', () => {
       activateForm();
-      address.value = `${CENTER.lat}, ${CENTER.lng}`;
+      address.value = `${Center.lat}, ${Center.lng}`;
     })
     .setView({
-      lat: CENTER.lat,
-      lng: CENTER.lng,
+      lat: Center.lat,
+      lng: Center.lng,
     }, ZOOM);
 
   L.tileLayer(
@@ -62,8 +61,6 @@ const activateMap = () => {
     address.value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
   });
 };
-
-// Функция создания маркеров
 
 const renderPins = (data, layer) => {
   data.forEach((marker) => {
@@ -83,7 +80,7 @@ const renderPins = (data, layer) => {
   });
 };
 
-// Объединение маркеров в слой и добавление на карту
+let pinsLayer;
 
 const renderLayer = (data) => {
   pinsLayer = L.layerGroup();
@@ -95,11 +92,11 @@ const renderLayer = (data) => {
 };
 
 const resetMap = () => {
-  address.value = `${CENTER.lat}, ${CENTER.lng}`;
-  mainMarker.setLatLng([CENTER.lat, CENTER.lng]);
+  address.value = `${Center.lat}, ${Center.lng}`;
+  mainMarker.setLatLng([Center.lat, Center.lng]);
   map.setView({
-    lat: CENTER.lat,
-    lng: CENTER.lng,
+    lat: Center.lat,
+    lng: Center.lng,
   }, ZOOM);
 }
 

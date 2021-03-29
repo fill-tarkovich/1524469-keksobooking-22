@@ -1,6 +1,15 @@
 import { sendData } from './api.js';
 import { showFailPopup, showSuccessPopup } from './popup.js';
 import { resetMap, mapFilters, renderLayer } from './map.js'
+import { clearPictures } from './pictures.js';
+
+const MinPrice =
+{
+  BUNGALOW: 0,
+  FLAT: 1000,
+  HOUSE: 5000,
+  palace: 10000,
+};
 
 const adForm = document.querySelector('.ad-form');
 const checkIn = adForm.querySelector('#timein');
@@ -11,13 +20,6 @@ const adTitle = adForm.querySelector('#title');
 const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const reset = adForm.querySelector('.ad-form__reset');
-const MinPrice =
-{
-  BUNGALOW: 0,
-  FLAT: 1000,
-  HOUSE: 5000,
-  palace: 10000,
-};
 
 const deactivateForm = () => {
   adForm.classList.add('ad-form--disabled');
@@ -89,7 +91,7 @@ const validateForm = () => {
   capacity.addEventListener('change', () => { validateCapacity() });
 }
 
-const onFormSubmit = () => {
+const submitForm = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     sendData(() => {
@@ -105,14 +107,15 @@ const onFormSubmit = () => {
   });
 };
 
-const onResetClick = (array) => {
+const clickReset = (array) => {
   reset.addEventListener('click', (evt) => {
     evt.preventDefault();
     adForm.reset();
+    clearPictures();
     resetMap();
     mapFilters.reset();
     renderLayer(array);
   });
 };
 
-export { deactivateForm, activateForm, validateForm, onFormSubmit, onResetClick }
+export { deactivateForm, activateForm, validateForm, submitForm, clickReset }

@@ -1,10 +1,10 @@
-const urlData = {
+const UrlData = {
   get: 'https://22.javascript.pages.academy/keksobooking/data',
   send: 'https://22.javascript.pages.academy/keksobooking',
 };
 
 const getData = (onSuccess, onFail) => {
-  fetch(urlData.get)
+  fetch(UrlData.get)
     .then((response) => response.json())
     .then((data) => {
       onSuccess(data);
@@ -16,7 +16,7 @@ const getData = (onSuccess, onFail) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    urlData.send,
+    UrlData.send,
     {
       method: 'POST',
       body,
@@ -33,6 +33,5 @@ const sendData = (onSuccess, onFail, body) => {
       onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
-
 
 export { getData, sendData }

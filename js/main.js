@@ -1,9 +1,11 @@
 /* global _:readonly */
-import { deactivateForm, validateForm, onFormSubmit, onResetClick } from './form.js'
-import { filterArray, onFilterChange, activateFilters } from './filter.js';
+import { deactivateForm, validateForm, submitForm, clickReset } from './form.js'
+import { filterArray, changeFilter, activateFilters } from './filter.js';
 import { renderLayer, clearMap, activateMap } from './map.js';
 import { getData } from './api.js';
 import { createLoadErrorPopup } from './popup.js';
+import './pictures.js';
+import { uploadAvatar, uploadPhoto } from './pictures.js';
 
 const DELAY = 150;
 
@@ -13,13 +15,15 @@ validateForm();
 getData((data) => {
   renderLayer(data);
   activateFilters();
-  onFilterChange(_.debounce(() => {
+  uploadAvatar();
+  uploadPhoto();
+  changeFilter(_.debounce(() => {
     clearMap();
     let newData = filterArray(data);
     renderLayer(newData);
   }, DELAY));
-  onResetClick(data);
+  clickReset(data);
 },
 () => createLoadErrorPopup('Ошибка при загрузке данных'),
 );
-onFormSubmit();
+submitForm();

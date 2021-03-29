@@ -1,10 +1,6 @@
 import { mapFilters } from './map.js';
 
-const housingType = document.querySelector('#housing-type');
-const housingRooms = document.querySelector('#housing-rooms');
-const housingGuests = document.querySelector('#housing-guests');
-const housingPrice = document.querySelector('#housing-price');
-const priceRange = {
+const PriceRange = {
   low: {
     min: 0,
     max: 10000,
@@ -18,6 +14,11 @@ const priceRange = {
     max: 1000000,
   },
 };
+
+const housingType = document.querySelector('#housing-type');
+const housingRooms = document.querySelector('#housing-rooms');
+const housingGuests = document.querySelector('#housing-guests');
+const housingPrice = document.querySelector('#housing-price');
 
 const sortFilters = (object) => {
   let isType = true;
@@ -40,7 +41,7 @@ const sortFilters = (object) => {
 
   let selectedPrice = housingPrice.value;
   if (selectedPrice !== 'any') {
-    isPrice = object.offer.price >= priceRange[selectedPrice].min && object.offer.price < priceRange[selectedPrice].max
+    isPrice = object.offer.price >= PriceRange[selectedPrice].min && object.offer.price < PriceRange[selectedPrice].max
   }
 
   let checkedFeatures = document.querySelectorAll('input[type="checkbox"]:checked');
@@ -67,7 +68,7 @@ const filterArray = (array) => {
   return filtredArray;
 };
 
-const onFilterChange = (action) => {
+const changeFilter = (action) => {
   mapFilters.addEventListener('change', () => {
     action();
   })
@@ -80,4 +81,4 @@ const activateFilters = () => {
   });
 };
 
-export { filterArray, onFilterChange, activateFilters }
+export { filterArray, changeFilter, activateFilters }
