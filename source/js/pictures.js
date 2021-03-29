@@ -1,4 +1,4 @@
-const FILE_TYPES = ['svg', 'jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['svg', 'jpg', 'jpeg', 'png', 'gif'];
 const DEFAULT_AVATAR = 'img/muffin-grey.svg';
 
 const avatarUpload = document.querySelector('.ad-form-header__input');

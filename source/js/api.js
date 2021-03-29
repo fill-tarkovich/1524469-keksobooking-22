@@ -1,6 +1,6 @@
 const UrlData = {
-  get: 'https://22.javascript.pages.academy/keksobooking/data',
-  send: 'https://22.javascript.pages.academy/keksobooking',
+  GET: 'https://22.javascript.pages.academy/keksobooking/data',
+  SEND: 'https://22.javascript.pages.academy/keksobooking',
 };
 
 const getData = (onSuccess, onFail) => {

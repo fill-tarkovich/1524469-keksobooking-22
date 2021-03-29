@@ -1,4 +1,4 @@
-/* global _:readonly */
+import _ from 'lodash';
 import { deactivateForm, validateForm, submitForm, clickReset } from './form.js'
 import { filterArray, changeFilter, activateFilters } from './filter.js';
 import { renderLayer, clearMap, activateMap } from './map.js';

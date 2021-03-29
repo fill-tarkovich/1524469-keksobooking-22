@@ -1,4 +1,4 @@
-const OfferTypes = {
+const offerTypes = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
   house: 'Дом',
@@ -23,7 +23,7 @@ const renderCard = ({ author, offer }) => {
   checkValue('.popup__title', offer.title);
   checkValue('.popup__text--address', offer.address);
   checkValue('.popup__text--price', offer.price + ' ₽/ночь');
-  checkValue('.popup__type', OfferTypes[offer.type]);
+  checkValue('.popup__type', offerTypes[offer.type]);
   checkValue('.popup__text--capacity', offer.rooms + ' комнаты для ' + offer.guests + ' гостей');
   checkValue('.popup__text--time', 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout);
 

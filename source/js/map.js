@@ -1,11 +1,11 @@
-/* global L:readonly */
-
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { renderCard } from './card.js';
 import { activateForm } from './form.js';
 
 const ZOOM = 10;
 const ADS_COUNT = 10;
-const Center = {
+const сenter = {
   lat: 35.68783,
   lng: 139.75662,
 };
@@ -23,8 +23,8 @@ const mainIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: Center.lat,
-    lng: Center.lng,
+    lat: сenter.lat,
+    lng: сenter.lng,
   },
   {
     draggable: true,
@@ -42,11 +42,11 @@ const activateMap = () => {
   map
     .on('load', () => {
       activateForm();
-      address.value = `${Center.lat}, ${Center.lng}`;
+      address.value = `${сenter.lat}, ${сenter.lng}`;
     })
     .setView({
-      lat: Center.lat,
-      lng: Center.lng,
+      lat: сenter.lat,
+      lng: сenter.lng,
     }, ZOOM);
 
   L.tileLayer(
@@ -92,11 +92,11 @@ const renderLayer = (data) => {
 };
 
 const resetMap = () => {
-  address.value = `${Center.lat}, ${Center.lng}`;
-  mainMarker.setLatLng([Center.lat, Center.lng]);
+  address.value = `${сenter.lat}, ${сenter.lng}`;
+  mainMarker.setLatLng([сenter.lat, сenter.lng]);
   map.setView({
-    lat: Center.lat,
-    lng: Center.lng,
+    lat: сenter.lat,
+    lng: сenter.lng,
   }, ZOOM);
 }
 

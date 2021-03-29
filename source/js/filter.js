@@ -1,6 +1,6 @@
 import { mapFilters } from './map.js';
 
-const PriceRange = {
+const priceRange = {
   low: {
     min: 0,
     max: 10000,
@@ -41,7 +41,7 @@ const sortFilters = (object) => {
 
   let selectedPrice = housingPrice.value;
   if (selectedPrice !== 'any') {
-    isPrice = object.offer.price >= PriceRange[selectedPrice].min && object.offer.price < PriceRange[selectedPrice].max
+    isPrice = object.offer.price >= priceRange[selectedPrice].min && object.offer.price < priceRange[selectedPrice].max
   }
 
   let checkedFeatures = document.querySelectorAll('input[type="checkbox"]:checked');
