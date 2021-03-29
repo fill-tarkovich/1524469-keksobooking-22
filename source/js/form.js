@@ -8,7 +8,7 @@ const MinPrice =
   BUNGALOW: 0,
   FLAT: 1000,
   HOUSE: 5000,
-  palace: 10000,
+  PALACE: 10000,
 };
 
 const adForm = document.querySelector('.ad-form');
