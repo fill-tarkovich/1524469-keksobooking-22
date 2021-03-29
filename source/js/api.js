@@ -4,7 +4,7 @@ const UrlData = {
 };
 
 const getData = (onSuccess, onFail) => {
-  fetch(UrlData.get)
+  fetch(UrlData.GET)
     .then((response) => response.json())
     .then((data) => {
       onSuccess(data);
@@ -16,7 +16,7 @@ const getData = (onSuccess, onFail) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    UrlData.send,
+    UrlData.SEND,
     {
       method: 'POST',
       body,
